@@ -10,3 +10,9 @@ export class CreateUserDto {
   @MinLength(8)
   password: string;
 }
+
+export class UserDto {
+  email: string;
+  username: string;
+  imageUrl: string;
+}

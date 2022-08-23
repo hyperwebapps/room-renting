@@ -1,4 +1,4 @@
-export class AuthDto {
+export interface IAuthDto {
   email: string;
   password: string;
 }
