@@ -9,6 +9,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' })
   const configService = app.get(ConfigService)
-  await app.listen(configService.getOrThrow('PORT'))
+  await app.listen(configService.getOrThrow<number>('PORT'))
 }
 bootstrap()

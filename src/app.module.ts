@@ -15,7 +15,7 @@ import { UserModule } from './users/users.module'
     }),
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.getOrThrow('DB_ENDPOINT'),
+        uri: configService.getOrThrow<string>('DB_ENDPOINT'),
       }),
       inject: [ConfigService],
     }),
