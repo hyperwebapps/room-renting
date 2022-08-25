@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class RoomService {
   async addRoom(username: string): Promise<string> {
-    return `${username} your account has been created`;
+    return `${username} your account has been created`
   }
 
   async getRoom(id: string): Promise<{}> {
@@ -11,14 +11,14 @@ export class RoomService {
       email: '',
       username: '',
       imageUrl: '',
-    };
+    }
   }
 
   async updateRoom(): Promise<string> {
-    return 'The room has been edited';
+    return 'The room has been edited'
   }
 
-  async disableRoom(): Promise<string> {
-    return 'The room has been disabled';
+  async deleteRoom(): Promise<string> {
+    return 'The room has been disabled'
   }
 }

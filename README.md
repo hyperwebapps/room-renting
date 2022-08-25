@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="utils/model.png" alt="Room Renting Schema" />
+</p>
+
+## Description
+
+Room-Renting is a very basic api, that it allows to you to manage a small business of room renting like airbnb.
+
 ## Installation
 
 ```bash

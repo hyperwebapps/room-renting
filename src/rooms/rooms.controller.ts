@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
-import { ResponseDto } from 'src/utils/dto';
-import { AddRoomDto } from './dto/rooms.dto';
-import { RoomService } from './rooms.service';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import { ResponseDto } from 'src/utils/dto'
+import { AddRoomDto } from './dto/rooms.dto'
+import { RoomService } from './rooms.service'
 
 @Controller('rooms')
 export class RoomController {
@@ -21,7 +13,7 @@ export class RoomController {
       id: body.name,
       code: 200,
       message: '',
-    };
+    }
   }
 
   @Get(':roomId')
@@ -30,7 +22,7 @@ export class RoomController {
       id: id,
       code: 200,
       message: `Room is occupied`,
-    };
+    }
   }
 
   @Get()
@@ -38,7 +30,7 @@ export class RoomController {
     return {
       code: 200,
       message: 'All rooms',
-    };
+    }
   }
 
   @Put(':roomId')
@@ -50,7 +42,7 @@ export class RoomController {
       id: id,
       code: 200,
       message: `${body.name} has been edited`,
-    };
+    }
   }
 
   @Delete('roomId')
@@ -59,6 +51,6 @@ export class RoomController {
       id: id,
       code: 200,
       message: `The room has been deleted`,
-    };
+    }
   }
 }
