@@ -22,6 +22,12 @@ export class User {
 
   @Prop(raw({ type: Date, default: tokenExpiration() }))
   expire: Date
+
+  @Prop({
+    default:
+      'https://img.seadn.io/files/3b793ffdf7bfbc21290f5d3f43950254.png?fit=max&w=600',
+  })
+  avatar: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

@@ -1,19 +1,22 @@
 import { Body, Controller, Get, Post } from '@nestjs/common'
 import { ResponseDto } from 'src/utils/dto'
-import { AuthService } from './auth.service'
-import { AuthDto } from './dto/auth.dto'
+import { UserService } from '../users.service'
+import { AuthDto, AuthUserDto } from './dto/auth.dto'
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly appService: AuthService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Body() body: AuthDto): Promise<ResponseDto> {
-    const token = await this.appService.authUser(body)
+  async authUser(@Body() body: AuthDto): Promise<ResponseDto> {
+    const user: AuthUserDto = await this.userService.authUser(body.email)
+    const { _id, token, expire } = user
+
     return {
-      id: body.email,
+      id: _id,
       code: 200,
-      token: token,
+      token,
+      expire,
     }
   }
 }

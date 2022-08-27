@@ -3,6 +3,7 @@ export class ResponseDto {
   code: number
   message?: string
   token?: string
+  expire?: Date
 }
 
 export class ErrorDto {

@@ -12,7 +12,11 @@ export class CreateUserDto {
 }
 
 export class UserDto {
+  id: string
+  _id?: string
   email: string
   username: string
-  imageUrl: string
+  token?: string
+  expire?: Date
+  avatar: string
 }

@@ -7,3 +7,9 @@ export class AuthDto {
   @IsNotEmpty()
   password: string
 }
+
+export class AuthUserDto {
+  _id: string
+  token: string
+  expire: Date
+}
