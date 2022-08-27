@@ -4,15 +4,14 @@ import { Model } from 'mongoose'
 import { CreateUserDto, UserDto } from './dto/users.dto'
 import { User, UserDocument } from './schemas/users.schema'
 import { AuthUserDto } from './auth/dto/auth.dto'
-import UIDGenerator = require('uid-generator')
+import { generateToken } from 'src/utils'
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel('users') private userModel: Model<UserDocument>) {}
 
   async addUser(body: CreateUserDto): Promise<User> {
-    const uidgen = new UIDGenerator(512, UIDGenerator.BASE62)
-    const token = await uidgen.generate()
+    const token = await generateToken()
     const createdUser = new this.userModel({ ...body, token })
     return createdUser.save()
   }
@@ -41,7 +40,7 @@ export class UserService {
       .exec()) as unknown as AuthUserDto
 
     return {
-      _id: user._id,
+      _id: String(user._id),
       token: user.token,
       expire: user.expire,
     }

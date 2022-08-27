@@ -1,18 +1,37 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import { deserializeArray } from '@nestjs/class-transformer'
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common'
+import {
+  instanceToInstance,
+  instanceToPlain,
+  plainToClass,
+  plainToInstance,
+} from 'class-transformer'
 import { ResponseDto } from 'src/utils/dto'
-import { AddRoomDto } from './dto/rooms.dto'
+import { AddRoomDto, RoomsDto } from './dto/rooms.dto'
 import { RoomService } from './rooms.service'
 
 @Controller('rooms')
 export class RoomController {
-  constructor(private readonly appService: RoomService) {}
+  constructor(private readonly roomService: RoomService) {}
 
   @Post()
   async addRoom(@Body() body: AddRoomDto): Promise<ResponseDto> {
+    const room = await this.roomService.addRoom(body)
+
     return {
-      id: body.name,
+      id: String(room._id),
       code: 200,
-      message: '',
+      message: 'The room has been created',
     }
   }
 
@@ -26,11 +45,10 @@ export class RoomController {
   }
 
   @Get()
-  async getRooms(): Promise<ResponseDto> {
-    return {
-      code: 200,
-      message: 'All rooms',
-    }
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getRooms(): Promise<RoomsDto[]> {
+    const rooms = await this.roomService.getRooms()
+    return rooms
   }
 
   @Put(':roomId')

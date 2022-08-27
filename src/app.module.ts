@@ -4,6 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { RoomModule } from './rooms/rooms.module'
 import { AuthModule } from './users/auth/auth.module'
 import { UserModule } from './users/users.module'
+import { getEnv } from './utils'
+import 'reflect-metadata'
 
 @Module({
   imports: [
@@ -14,8 +16,8 @@ import { UserModule } from './users/users.module'
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.getOrThrow<string>('DB_ENDPOINT'),
+      useFactory: async () => ({
+        uri: getEnv('DB_ENDPOINT'),
       }),
       inject: [ConfigService],
     }),

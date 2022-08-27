@@ -1,17 +1,32 @@
 import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model } from 'mongoose'
+import { AddRoomDto, RoomsDto } from './dto/rooms.dto'
+import { Room, RoomDocument } from './schemas/rooms.schema'
 
 @Injectable()
 export class RoomService {
-  async addRoom(username: string): Promise<string> {
-    return `${username} your account has been created`
+  constructor(@InjectModel('rooms') private roomModel: Model<RoomDocument>) {}
+
+  async addRoom(body: AddRoomDto): Promise<Room> {
+    const createdRoom = new this.roomModel(body)
+    return createdRoom.save()
   }
 
-  async getRoom(id: string): Promise<{}> {
-    return {
-      email: '',
-      username: '',
-      imageUrl: '',
-    }
+  async getRooms(): Promise<RoomsDto[]> {
+    const rooms = await this.roomModel
+      .find({ isEnabled: true }, { __v: 0 })
+      .exec()
+    return rooms.map((room) => {
+      const { name, price, address, imageUrl } = room
+      return new RoomsDto({
+        id: room._id.toString(),
+        name,
+        price,
+        address,
+        imageUrl,
+      })
+    })
   }
 
   async updateRoom(): Promise<string> {

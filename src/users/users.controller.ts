@@ -28,8 +28,6 @@ export class UserController {
   async getUser(@Param('userId') id: string): Promise<UserDto> {
     const user = await this.appService.getUser(id)
 
-    return {
-      ...user,
-    }
+    return { ...user }
   }
 }
