@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { Document, SchemaTypes, Types } from 'mongoose'
+import { Document } from 'mongoose'
 
 export type RoomDocument = Room & Document
 
@@ -7,28 +7,28 @@ export type RoomDocument = Room & Document
 export class Room {
   _id: string
 
-  @Prop()
+  @Prop({ required: true })
   name: string
 
-  @Prop()
+  @Prop({ required: true })
   price: number
 
-  @Prop()
+  @Prop({ required: true })
   guest: number
 
-  @Prop()
+  @Prop({ required: true })
   bedrooms: number
 
-  @Prop()
+  @Prop({ required: true })
   beds: number
 
-  @Prop()
+  @Prop({ required: true })
   baths: number
 
-  @Prop()
+  @Prop({ default: 'No description has been given' })
   description: string
 
-  @Prop()
+  @Prop({ required: true })
   address: string
 
   @Prop({

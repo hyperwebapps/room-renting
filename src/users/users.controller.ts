@@ -17,11 +17,11 @@ export class UserController {
       password: hashSlice(hash),
     })
 
-    return {
-      id: String(user._id),
+    return new ResponseDto({
+      id: user._id.toString(),
       code: 200,
       message: 'The account has been created',
-    }
+    })
   }
 
   @Get(':userId')

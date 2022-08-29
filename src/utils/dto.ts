@@ -3,7 +3,11 @@ export class ResponseDto {
   code: number
   message?: string
   token?: string
-  expire?: Date
+  expire?: string
+
+  constructor(partial: Partial<ResponseDto>) {
+    Object.assign(this, partial)
+  }
 }
 
 export class ErrorDto {

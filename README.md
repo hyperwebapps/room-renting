@@ -8,13 +8,13 @@ Room-Renting is a very basic api, that it allows to you to manage a small busine
 
 ## Installation
 
-```bash
+```shell
 $ npm install
 ```
 
 ## Running the app
 
-```bash
+```shell
 # development
 $ npm run start
 
@@ -27,7 +27,7 @@ $ npm run start:prod
 
 ## Test
 
-```bash
+```shell
 # unit tests
 $ npm run test
 

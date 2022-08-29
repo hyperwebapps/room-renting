@@ -4,15 +4,13 @@ import { Model } from 'mongoose'
 import { CreateUserDto, UserDto } from './dto/users.dto'
 import { User, UserDocument } from './schemas/users.schema'
 import { AuthUserDto } from './auth/dto/auth.dto'
-import { generateToken } from 'src/utils'
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel('users') private userModel: Model<UserDocument>) {}
 
   async addUser(body: CreateUserDto): Promise<User> {
-    const token = await generateToken()
-    const createdUser = new this.userModel({ ...body, token })
+    const createdUser = new this.userModel(body)
     return createdUser.save()
   }
 
@@ -30,19 +28,12 @@ export class UserService {
   }
 
   async authUser(email: string): Promise<AuthUserDto> {
-    //Change mapping with models
+    const user = await this.userModel.findOne({ email }, { __v: 0 }).exec()
 
-    const user = (await this.userModel
-      .findOne(
-        { email },
-        { email: 0, username: 0, password: 0, avatar: 0, __v: 0 },
-      )
-      .exec()) as unknown as AuthUserDto
-
-    return {
-      _id: String(user._id),
-      token: user.token,
-      expire: user.expire,
-    }
+    return new AuthUserDto({
+      id: user?._id.toString(),
+      token: user?.token,
+      expire: user?.expire,
+    })
   }
 }

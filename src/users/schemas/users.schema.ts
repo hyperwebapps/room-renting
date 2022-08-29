@@ -1,6 +1,6 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { Date, ObjectId } from 'mongoose'
-import { tokenExpiration } from 'src/utils'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { ObjectId } from 'mongoose'
+import { generateToken, tokenExpiration } from 'src/utils'
 
 export type UserDocument = User & Document
 
@@ -17,11 +17,11 @@ export class User {
   @Prop()
   password: string
 
-  @Prop({ unique: true, default: '' })
+  @Prop({ unique: true, default: generateToken() })
   token: string
 
-  @Prop(raw({ type: Date, default: tokenExpiration() }))
-  expire: Date
+  @Prop({ default: tokenExpiration() })
+  expire: string
 
   @Prop({
     default:

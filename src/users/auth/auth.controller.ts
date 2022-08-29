@@ -10,13 +10,13 @@ export class AuthController {
   @Post()
   async authUser(@Body() body: AuthDto): Promise<ResponseDto> {
     const user: AuthUserDto = await this.userService.authUser(body.email)
-    const { _id, token, expire } = user
+    const { id, token, expire } = user
 
-    return {
-      id: _id,
+    return new ResponseDto({
+      id,
       code: 200,
       token,
       expire,
-    }
+    })
   }
 }

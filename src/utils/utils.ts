@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config'
-import UIDGenerator from 'uid-generator'
+import { TokenGenerator, TokenBase } from 'ts-token-generator'
 
 const configService: ConfigService = new ConfigService()
 
@@ -8,15 +8,18 @@ export const hashSlice = (hash: string): string => {
   return sliced
 }
 
-export const generateToken = async (): Promise<string> => {
-  const uidgen = new UIDGenerator(512, UIDGenerator.BASE62)
-  return await uidgen.generate()
+export const generateToken = (): string => {
+  const uidgen = new TokenGenerator({
+    bitSize: 512,
+    baseEncoding: TokenBase.BASE62,
+  })
+  return uidgen.generate()
 }
 
-export const tokenExpiration = (): Date => {
+export const tokenExpiration = (): string => {
   const currentData = new Date()
   currentData.setDate(currentData.getDate() + 1)
-  return currentData
+  return currentData.toISOString()
 }
 
 export const getEnv = (envName: string): string => {

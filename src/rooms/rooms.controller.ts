@@ -1,4 +1,3 @@
-import { deserializeArray } from '@nestjs/class-transformer'
 import {
   Body,
   ClassSerializerInterceptor,
@@ -10,14 +9,9 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common'
-import {
-  instanceToInstance,
-  instanceToPlain,
-  plainToClass,
-  plainToInstance,
-} from 'class-transformer'
+import { plainToClass, plainToInstance } from 'class-transformer'
 import { ResponseDto } from 'src/utils/dto'
-import { AddRoomDto, RoomsDto } from './dto/rooms.dto'
+import { AddRoomDto, EditRoomDto, RoomDto, RoomsDto } from './dto/rooms.dto'
 import { RoomService } from './rooms.service'
 
 @Controller('rooms')
@@ -36,12 +30,12 @@ export class RoomController {
   }
 
   @Get(':roomId')
-  async getRoom(@Param('roomId') id: string): Promise<ResponseDto> {
-    return {
-      id: id,
-      code: 200,
-      message: `Room is occupied`,
-    }
+  async getRoom(@Param('roomId') id: string): Promise<RoomDto> {
+    const room = await this.roomService.getRoom(id)
+    const converted = plainToInstance(RoomDto, room, {
+      excludeExtraneousValues: true,
+    })
+    return converted
   }
 
   @Get()
@@ -54,19 +48,21 @@ export class RoomController {
   @Put(':roomId')
   async editRoom(
     @Param('roomId') id: string,
-    @Body() body: AddRoomDto,
+    @Body() body: EditRoomDto,
   ): Promise<ResponseDto> {
+    const room = await this.roomService.updateRoom(id, body)
     return {
-      id: id,
+      id: room?._id,
       code: 200,
       message: `${body.name} has been edited`,
     }
   }
 
-  @Delete('roomId')
+  @Delete(':roomId')
   async deleteRoom(@Param('roomId') id: string): Promise<ResponseDto> {
+    const room = await this.roomService.deleteRoom(id)
     return {
-      id: id,
+      id: room?._id,
       code: 200,
       message: `The room has been deleted`,
     }
