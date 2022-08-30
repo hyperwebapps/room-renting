@@ -5,7 +5,7 @@ export type RoomDocument = Room & Document
 
 @Schema()
 export class Room {
-  _id: string
+  id: string
 
   @Prop({ required: true })
   name: string

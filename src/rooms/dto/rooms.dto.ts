@@ -1,20 +1,45 @@
-import { Exclude } from '@nestjs/class-transformer'
 import { Expose } from 'class-transformer'
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
 import { ObjectId } from 'mongoose'
 
 export class AddRoomDto {
+  @IsNotEmpty()
+  @IsString()
   name: string
+
+  @IsNotEmpty()
+  @IsNumber()
   price: number
+
+  @IsNotEmpty()
+  @IsNumber()
   guest: number
+
+  @IsNotEmpty()
+  @IsNumber()
   bedrooms: number
+
+  @IsNotEmpty()
+  @IsNumber()
   beds: number
+
+  @IsNotEmpty()
+  @IsNumber()
   baths: number
+
+  @IsNotEmpty()
+  @IsString()
   description: string
+
+  @IsNotEmpty()
+  @IsString()
   address: string
+
+  @IsNotEmpty()
+  @IsString()
   imageUrl: string
 }
 
-@Exclude()
 export class RoomsDto {
   @Expose()
   id: string
@@ -30,10 +55,6 @@ export class RoomsDto {
 
   @Expose()
   imageUrl: string
-
-  constructor(partial: Partial<RoomsDto>) {
-    Object.assign(this, partial)
-  }
 }
 
 export class EditRoomDto {
@@ -46,27 +67,37 @@ export class EditRoomDto {
   description: string
   address: string
   imageUrl: string
+  isEnabled: boolean
 }
 
 export class RoomDto {
   @Expose({ name: '_id' })
   id: string
+
   @Expose()
   name: string
+
   @Expose()
   price: number
+
   @Expose()
   guest: number
+
   @Expose()
   bedrooms: number
+
   @Expose()
   beds: number
+
   @Expose()
   baths: number
+
   @Expose()
   description: string
+
   @Expose()
   address: string
-  @Expose({ name: 'imageUrl' })
-  avatar: string
+
+  @Expose()
+  imageUrl: string
 }
