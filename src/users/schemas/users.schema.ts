@@ -6,7 +6,7 @@ export type UserDocument = User & Document
 
 @Schema()
 export class User {
-  _id: ObjectId
+  id: string
 
   @Prop({ unique: true })
   email: string
@@ -14,7 +14,7 @@ export class User {
   @Prop({ unique: true })
   username: string
 
-  @Prop()
+  @Prop({ required: true })
   password: string
 
   @Prop({ unique: true, default: generateToken() })

@@ -1,13 +1,4 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 
 import { ResponseDto } from 'src/utils/dto'
 import { AddRoomDto, EditRoomDto, RoomDto, RoomsDto } from './dto/rooms.dto'
@@ -21,11 +12,11 @@ export class RoomController {
   async addRoom(@Body() body: AddRoomDto): Promise<ResponseDto> {
     const room = await this.roomService.addRoom(body)
 
-    return {
+    return new ResponseDto({
       id: room.id,
       code: 200,
       message: 'The room has been created',
-    }
+    })
   }
 
   @Get(':roomId')
@@ -47,20 +38,21 @@ export class RoomController {
   ): Promise<ResponseDto> {
     const room = await this.roomService.updateRoom(id, body)
 
-    return {
+    return new ResponseDto({
       id: room.id,
       code: 200,
       message: `${room.name} has been edited`,
-    }
+    })
   }
 
   @Delete(':roomId')
   async deleteRoom(@Param('roomId') id: string): Promise<ResponseDto> {
     const room = await this.roomService.deleteRoom(id)
-    return {
+
+    return new ResponseDto({
       id: room.id,
       code: 200,
       message: `The room has been deleted`,
-    }
+    })
   }
 }

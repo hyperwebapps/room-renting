@@ -1,6 +1,5 @@
 import { Expose } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
-import { ObjectId } from 'mongoose'
 
 export class AddRoomDto {
   @IsNotEmpty()

@@ -1,4 +1,3 @@
-import { Exclude } from '@nestjs/class-transformer'
 import { Expose } from 'class-transformer'
 import { IsEmail, IsNotEmpty } from 'class-validator'
 
@@ -10,9 +9,8 @@ export class AuthDto {
   password: string
 }
 
-@Exclude()
 export class AuthUserDto {
-  @Expose()
+  @Expose({ name: '_id' })
   id: string
 
   @Expose()
@@ -20,8 +18,4 @@ export class AuthUserDto {
 
   @Expose()
   expire: string
-
-  constructor(partial: Partial<AuthUserDto>) {
-    Object.assign(this, partial)
-  }
 }

@@ -2,8 +2,6 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 import { ResponseDto } from 'src/utils/dto'
 import { CreateUserDto, UserDto } from './dto/users.dto'
 import { UserService } from './users.service'
-import { hashSlice } from 'src/utils'
-import * as argon2 from 'argon2'
 
 @Controller('users')
 export class UserController {
@@ -11,14 +9,9 @@ export class UserController {
 
   @Post()
   async createUser(@Body() body: CreateUserDto): Promise<ResponseDto> {
-    const hash = await argon2.hash(body.password)
-    const user = await this.appService.addUser({
-      ...body,
-      password: hashSlice(hash),
-    })
-
+    const user = await this.appService.addUser(body)
     return new ResponseDto({
-      id: user._id.toString(),
+      id: user.id,
       code: 200,
       message: 'The account has been created',
     })
@@ -28,6 +21,6 @@ export class UserController {
   async getUser(@Param('userId') id: string): Promise<UserDto> {
     const user = await this.appService.getUser(id)
 
-    return { ...user }
+    return user
   }
 }

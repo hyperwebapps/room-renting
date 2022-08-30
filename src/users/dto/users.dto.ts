@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer'
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator'
 
 export class CreateUserDto {
@@ -12,11 +13,15 @@ export class CreateUserDto {
 }
 
 export class UserDto {
+  @Expose()
   id: string
-  _id?: string
+
+  @Expose()
   email: string
+
+  @Expose()
   username: string
-  token?: string
-  expire?: Date
+
+  @Expose()
   avatar: string
 }
