@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import { AuthGuard } from 'src/auth'
 import { ResponseDto } from 'src/utils/dto'
 import { CreateUserDto, UserDto } from './dto/users.dto'
 import { UserService } from './users.service'
@@ -18,6 +19,7 @@ export class UserController {
   }
 
   @Get(':userId')
+  @UseGuards(AuthGuard)
   async getUser(@Param('userId') id: string): Promise<UserDto> {
     const user = await this.appService.getUser(id)
 

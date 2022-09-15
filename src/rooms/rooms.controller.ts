@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common'
+import { AuthGuard } from 'src/auth'
 
 import { ResponseDto } from 'src/utils/dto'
 import { AddRoomDto, EditRoomDto, RoomDto, RoomsDto } from './dto/rooms.dto'
@@ -9,6 +19,7 @@ export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   async addRoom(@Body() body: AddRoomDto): Promise<ResponseDto> {
     const room = await this.roomService.addRoom(body)
 
@@ -32,6 +43,7 @@ export class RoomController {
   }
 
   @Put(':roomId')
+  @UseGuards(AuthGuard)
   async editRoom(
     @Param('roomId') id: string,
     @Body() body: EditRoomDto,
@@ -46,6 +58,7 @@ export class RoomController {
   }
 
   @Delete(':roomId')
+  @UseGuards(AuthGuard)
   async deleteRoom(@Param('roomId') id: string): Promise<ResponseDto> {
     const room = await this.roomService.deleteRoom(id)
 

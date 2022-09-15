@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { CreateUserDto, UserDto } from './dto/users.dto'
@@ -31,6 +31,16 @@ export class UserService {
       excludeExtraneousValues: true,
     })
     return mappedUser
+  }
+
+  async getUserByToken(token: string): Promise<boolean> {
+    const user = await this.userModel.findOne({ token: token }).exec()
+    if (user === null)
+      throw new UnauthorizedException({
+        code: HttpStatus.UNAUTHORIZED,
+        message: 'Unauthorized',
+      })
+    return true
   }
 
   async authUser(body: AuthDto): Promise<AuthUserDto> {

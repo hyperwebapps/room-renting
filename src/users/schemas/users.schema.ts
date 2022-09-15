@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { ObjectId } from 'mongoose'
 import { generateToken, tokenExpiration } from 'src/utils'
 
 export type UserDocument = User & Document
