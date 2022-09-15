@@ -37,3 +37,15 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Env Variable
+
+```shell
+PORT = 0000
+
+DB_ENDPOINT = ""
+
+USER_AVATAR = ""
+
+ROOM_IMAGE = ""
+```

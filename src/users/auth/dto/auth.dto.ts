@@ -10,7 +10,7 @@ export class AuthDto {
 }
 
 export class AuthUserDto {
-  @Expose({ name: '_id' })
+  @Expose()
   id: string
 
   @Expose()

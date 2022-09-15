@@ -11,7 +11,7 @@ export class ResponseDto {
 }
 
 export class ErrorDto {
-  id: string
+  code: number
   message: string
   details?: string
 }

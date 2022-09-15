@@ -7,6 +7,7 @@ import { AuthDto, AuthUserDto } from './auth/dto/auth.dto'
 import { plainToInstance } from 'class-transformer'
 import { tokenExpiration } from 'src/utils'
 import * as argon2 from 'argon2'
+import { InvalidCredentialsException, UserNotFoundException } from 'src/error'
 
 @Injectable()
 export class UserService {
@@ -24,14 +25,12 @@ export class UserService {
       .findById(id, { token: 0, expire: 0, password: 0, __v: 0 })
       .exec()
 
-    if (user !== null) {
-      const mappedUser = plainToInstance(UserDto, user, {
-        excludeExtraneousValues: true,
-      })
-      return mappedUser
-    }
+    if (user === null) throw new UserNotFoundException()
 
-    throw new Error(`User not found`)
+    const mappedUser = plainToInstance(UserDto, user, {
+      excludeExtraneousValues: true,
+    })
+    return mappedUser
   }
 
   async authUser(body: AuthDto): Promise<AuthUserDto> {
@@ -49,9 +48,8 @@ export class UserService {
         })
         return authenticatedUser
       }
-      throw new Error(`Invalid password`)
+      throw new InvalidCredentialsException()
     }
-
-    throw new Error(`Invalid email`)
+    throw new InvalidCredentialsException()
   }
 }
