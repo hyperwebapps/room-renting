@@ -1,6 +1,19 @@
 version: '3.9'
+
 services:
-  web:
+  api:
     build: .
-    port:
+    ports:
       - '3000:3000'
+    depends_on:
+      - 'mongo'
+
+  mongo:
+    image: 'mongo:latest'
+    ports:
+      - '27017:27017'
+    volumes:
+      - 'mongo:/data/db'
+
+volumes:
+  mongo:
